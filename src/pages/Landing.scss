@@ -149,16 +149,20 @@
   height: 423px;
   background-color: rgba(39, 174, 96, 1);
   filter: blur(500px);
+  backdrop-filter: blur(500px);
+  // --webkit-backdrop-filter: blur(500px);
   opacity: 0.62;
 }
 
 .btn {
   @include mixins.dmsans(600);
+  text-decoration: none;
   background-color: transparent;
   padding: 11.5px 47.5px;
   border-radius: 100px;
   border: 1px solid rgba(153, 153, 153, 1);
   cursor: pointer;
+  color: rgba(0, 0, 0, 1);
   transition: background-color 0.3s ease-in-out;
 
   &:hover {

@@ -1,30 +1,107 @@
 import "swiper/css";
 import "swiper/css/pagination";
 import "./Landing.scss";
+
+import useFormDataContext from "../helpers/useFormContext";
+
 import { ReactComponent as LinkedIn } from "../assets/linkedin.svg";
 import { ReactComponent as X } from "../assets/x.svg";
 import { ReactComponent as Insta } from "../assets/insta.svg";
 import { ReactComponent as Facebook } from "../assets/fb.svg";
 import { ReactComponent as YT } from "../assets/yt.svg";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 
+import { set, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+import Overlay from "../components/Overlay";
+
 export default function Landing() {
+  const {
+    isLoading,
+    isSuccess,
+    isError,
+    isModalHidden,
+    setLoadingStatus,
+    setSuccessStatus,
+    setErrorStatus,
+  } = useFormDataContext();
+
   return (
     <section className="landing">
       <Mail />
       <Slider />
+      {!isModalHidden && <Overlay />}
     </section>
   );
 }
 
 function Mail() {
+  const {
+    createContact,
+    setLoadingStatus,
+    setSuccessStatus,
+    setErrorStatus,
+    setIsModalHiddenStatus,
+    setErrorMessage,
+  } = useFormDataContext();
+
+  // Validiate email
+  const schema = yup
+    .object({
+      email: yup.string().email().required(),
+    })
+    .required();
+
+  // Handle Form Data
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  // Submit Functionality
+  const onSubmit = async (data) => {
+    try {
+      setLoadingStatus(true);
+
+      const response = await createContact(data);
+      console.log("Response:", response);
+
+      if (response.status === 201) {
+        setSuccessStatus(true);
+        setIsModalHiddenStatus(false);
+        setLoadingStatus(false);
+        setErrorStatus(false);
+      }
+    } catch (error) {
+      setErrorMessage(error?.response?.data?.message);
+      setErrorStatus(true);
+
+      setLoadingStatus(false);
+      setSuccessStatus(false);
+      setIsModalHiddenStatus(false);
+
+      console.log(error);
+
+      console.log(
+        "Error creating contact:",
+        error.response ? error.response.data : error.message
+      );
+    }
+  };
+
   return (
     <section className="mail">
       <aside className="nav">
         <div className="logo">Ventarca</div>
 
-        <button className="btn">Email Us</button>
+        <a className="btn" href="mailto:ventarcahq@gmail.com">
+          Email Us
+        </a>
       </aside>
 
       <aside className="content">
@@ -36,13 +113,14 @@ function Mail() {
           <p>And get 3 months free access...</p>
         </div>
 
-        <form className="form">
+        <form className="form" onSubmit={handleSubmit(onSubmit)}>
           <input
+            {...register("email", { required: true })}
             className="email"
             type="email"
             placeholder="Enter your email address"
           />
-          <button className="btn">Notify Me</button>
+          <input type="submit" className="btn" value="Notify Me" />
         </form>
 
         <p>*Don’t worry, we will not spam you.</p>
