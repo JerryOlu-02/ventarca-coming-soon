@@ -1,7 +1,17 @@
 @use "../styles/variables";
 @use "../styles/mixins";
 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); /* Start at 0 degrees */
+  }
+  100% {
+    transform: rotate(360deg); /* Rotate a full 360 degrees */
+  }
+}
+
 .landing {
+  position: relative;
   display: flex;
   min-height: 100vh;
   width: 100%;
@@ -85,6 +95,7 @@
 
   .form {
     position: relative;
+    pointer-events: all;
     width: 100%;
 
     .email {
@@ -112,6 +123,12 @@
       background-color: rgba(0, 0, 0, 1);
       color: rgba(255, 255, 255, 1);
       padding: 0 52.5px;
+
+      .loading {
+        svg {
+          animation: spin 1s linear infinite;
+        }
+      }
 
       &:hover {
         background-color: rgba(0, 0, 0, 1);

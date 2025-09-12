@@ -9,33 +9,28 @@ import { ReactComponent as X } from "../assets/x.svg";
 import { ReactComponent as Insta } from "../assets/insta.svg";
 import { ReactComponent as Facebook } from "../assets/fb.svg";
 import { ReactComponent as YT } from "../assets/yt.svg";
+import { ReactComponent as Loading } from "../assets/arrow-repeat.svg";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import Overlay from "../components/Overlay";
 
 export default function Landing() {
-  const {
-    isLoading,
-    isSuccess,
-    isError,
-    isModalHidden,
-    setLoadingStatus,
-    setSuccessStatus,
-    setErrorStatus,
-  } = useFormDataContext();
+  const { isModalHidden } = useFormDataContext();
 
   return (
-    <section className="landing">
-      <Mail />
-      <Slider />
-      {!isModalHidden && <Overlay />}
-    </section>
+    <>
+      <section className="landing">
+        <Mail />
+        <Slider />
+        {!isModalHidden && <Overlay />}
+      </section>
+    </>
   );
 }
 
@@ -47,6 +42,7 @@ function Mail() {
     setErrorStatus,
     setIsModalHiddenStatus,
     setErrorMessage,
+    isLoading,
   } = useFormDataContext();
 
   // Validiate email
@@ -59,25 +55,41 @@ function Mail() {
   // Handle Form Data
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   // Submit Functionality
   const onSubmit = async (data) => {
+    // if (errors.email) {
+    //   setErrorMessage(
+    //     "You seem to have entered an invalid email address. Ensure you email address is of the format ‘username@mailhost.com’."
+    //   );
+    //   setSuccessStatus(false);
+    //   setIsModalHiddenStatus(false);
+    //   return;
+    // }
+
     try {
       setLoadingStatus(true);
 
+      // Send data to Brevo
       const response = await createContact(data);
       console.log("Response:", response);
 
+      // Handle response if successful
       if (response.status === 201) {
         setSuccessStatus(true);
         setIsModalHiddenStatus(false);
         setLoadingStatus(false);
         setErrorStatus(false);
+        reset();
       }
     } catch (error) {
+      // Handle error
       setErrorMessage(error?.response?.data?.message);
       setErrorStatus(true);
 
@@ -120,7 +132,15 @@ function Mail() {
             type="email"
             placeholder="Enter your email address"
           />
-          <input type="submit" className="btn" value="Notify Me" />
+          <button type="submit" className="btn">
+            {isLoading ? (
+              <span className="loading">
+                <Loading />
+              </span>
+            ) : (
+              "Notify Me"
+            )}
+          </button>
         </form>
 
         <p>*Don’t worry, we will not spam you.</p>

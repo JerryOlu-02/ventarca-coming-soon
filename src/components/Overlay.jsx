@@ -27,7 +27,7 @@ export default function Overlay() {
   };
 
   return (
-    <section className={`overlay ${isModalHidden && "hidden"}`}>
+    <section className={`overlay ${isModalHidden ? "hidden" : ""}`}>
       <div className="popup">
         {isSuccess ? <Success /> : <Failed />}
 

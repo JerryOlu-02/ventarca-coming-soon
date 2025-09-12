@@ -1,18 +1,28 @@
 @use "/src/styles/variables";
 @use "/src/styles/mixins";
 
+@keyframes blend {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   z-index: 1000;
   @include mixins.flex-center;
   opacity: 1;
 
-  transition: opacity 0.5s ease-in-out;
+  animation: blend 0.5s linear;
+
   pointer-events: all;
 }
 
@@ -20,10 +30,10 @@
   z-index: unset;
   opacity: 0;
   pointer-events: none;
-  display: none;
 }
 
 .popup {
+  pointer-events: auto;
   position: relative;
   max-width: 576px;
   padding: 78px 48px 48px;
