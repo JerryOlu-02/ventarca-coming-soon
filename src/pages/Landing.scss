@@ -43,6 +43,11 @@
     padding: 24px 0;
     border-bottom: 1px solid rgba(245, 245, 245, 1);
 
+    .nav-container {
+      @include mixins.flex-center;
+      justify-content: space-between;
+    }
+
     .logo {
       @include mixins.sora(600);
       font-size: 36px;
@@ -62,12 +67,14 @@
       letter-spacing: 0px;
       vertical-align: middle;
       @include mixins.flex-column;
-      gap: 14px;
+      gap: 10px;
 
-      p:first-of-type {
-        @include mixins.sora(600);
-        font-size: 24px;
-        line-height: 100%;
+      div:first-of-type {
+        p {
+          @include mixins.sora(600);
+          font-size: 24px;
+          line-height: 28px;
+        }
       }
 
       h2 {
@@ -77,19 +84,23 @@
         line-height: 100%;
       }
 
-      p:last-of-type {
-        @include mixins.dmsans(500);
-        font-style: Medium;
-        font-size: 18px;
-        line-height: 100%;
+      div:last-of-type {
+        p {
+          @include mixins.dmsans(500);
+          font-style: Medium;
+          font-size: 18px;
+          line-height: 22px;
+        }
       }
     }
 
-    p {
-      @include mixins.dmsans(500);
-      font-style: Medium;
-      font-size: 16px;
-      line-height: 100%;
+    div {
+      p {
+        @include mixins.dmsans(500);
+        font-style: Medium;
+        font-size: 16px;
+        line-height: 100%;
+      }
     }
   }
 
@@ -97,6 +108,12 @@
     position: relative;
     pointer-events: all;
     width: 100%;
+    overflow-y: hidden;
+
+    .form-div {
+      transform: translateY(100%);
+      position: relative;
+    }
 
     .email {
       width: 100%;
@@ -276,22 +293,30 @@
       gap: 16px;
 
       .text {
-        gap: 12px;
+        gap: 8px;
 
-        p:first-of-type {
-          font-size: 20px;
+        div:first-of-type {
+          p {
+            font-size: 20px;
+            line-height: 24px;
+          }
         }
 
         h2 {
           font-size: 36px;
         }
 
-        p:last-of-type {
-          font-size: 16px;
+        div:last-of-type {
+          p {
+            font-size: 16px;
+            line-height: 20px;
+          }
         }
       }
 
       .form {
+        overflow-y: hidden;
+
         .email {
           padding: 4px 4px 4px 16px;
           height: 48px;
@@ -306,8 +331,10 @@
         }
       }
 
-      p {
-        font-size: 14px;
+      div {
+        p {
+          font-size: 14px;
+        }
       }
     }
 
@@ -369,5 +396,18 @@
   .swiper-pagination-bullet-active {
     width: 12px;
     height: 12px;
+  }
+}
+
+.hide-text {
+  overflow-y: hidden;
+  // transform: translateY(100%);
+
+  .reveal {
+    transform: translateY(100%);
+  }
+
+  svg {
+    transform: translateY(200%);
   }
 }

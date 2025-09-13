@@ -1,34 +1,51 @@
-import axios from "axios";
-
-const createContact = async function ({ email }) {
-  const apiKey = import.meta.env.VITE_BREVO_API_KEY;
+const sumbitContact = async function (
+  data,
+  createContact,
+  setLoadingStatus,
+  setSuccessStatus,
+  setErrorStatus,
+  setIsModalHiddenStatus,
+  setErrorMessage
+) {
+  // if (errors.email) {
+  //   setErrorMessage(
+  //     "You seem to have entered an invalid email address. Ensure you email address is of the format ‘username@mailhost.com’."
+  //   );
+  //   setSuccessStatus(false);
+  //   setIsModalHiddenStatus(false);
+  //   return;
+  // }
 
   try {
-    //   POST data to Brevo
-    const response = await axios.post(
-      "https://api.brevo.com/v3/contacts",
-      {
-        email: email,
-        listIds: [2],
-      },
-      {
-        headers: {
-          "api-key": apiKey,
-          "content-type": "application/json",
-          accept: "application/json",
-        },
-      }
-    );
+    setLoadingStatus(true);
 
-    return response.data;
+    // Send data to Brevo
+    const response = await createContact(data);
+    // console.log("Response:", response);
+
+    // Handle response if successful
+    if (response.status === 201) {
+      setSuccessStatus(true);
+      setIsModalHiddenStatus(false);
+      setLoadingStatus(false);
+      setErrorStatus(false);
+    }
   } catch (error) {
+    // Handle error
+    setErrorMessage(error?.response?.data?.message);
+    setErrorStatus(true);
+
+    setLoadingStatus(false);
+    setSuccessStatus(false);
+    setIsModalHiddenStatus(false);
+
+    console.log(error);
+
     console.log(
       "Error creating contact:",
       error.response ? error.response.data : error.message
     );
-
-    throw error;
   }
 };
 
-export default createContact;
+export default sumbitContact;
