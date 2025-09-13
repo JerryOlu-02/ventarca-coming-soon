@@ -2,7 +2,7 @@ import "./Overlay.scss";
 import { ReactComponent as Success } from "../assets/Correct.svg";
 import { ReactComponent as Failed } from "../assets/Failed.svg";
 import { ReactComponent as Close } from "../assets/close.svg";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import useFormDataContext from "../helpers/useFormContext";
 
 export default function Overlay() {
