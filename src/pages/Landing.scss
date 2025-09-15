@@ -163,7 +163,7 @@
       letter-spacing: 0px;
       vertical-align: middle;
       font-size: 16px;
-      line-height: 100%;
+      line-height: 20px;
     }
 
     .socials {
@@ -220,7 +220,7 @@
 .slide__item {
   width: 100%;
   @include mixins.flex-column;
-  gap: 20px;
+  gap: 16px;
   justify-content: flex-end;
   color: rgba(255, 255, 255, 1);
   letter-spacing: 0px;
@@ -229,14 +229,14 @@
 
   h3 {
     font-size: 36px;
-    line-height: 100%;
+    line-height: 40px;
     @include mixins.sora(600);
   }
 
   p {
     @include mixins.dmsans(400);
     font-size: 16px;
-    line-height: 100%;
+    line-height: 20px;
   }
 }
 
@@ -343,6 +343,7 @@
 
       p {
         font-size: 14px;
+        line-height: 18px;
       }
     }
   }
@@ -370,15 +371,17 @@
   }
 
   .slide__item {
-    gap: 14px;
+    gap: 10px;
     padding-bottom: calc(20px + 12px);
 
     h3 {
       font-size: 28px;
+      line-height: 32px;
     }
 
     p {
       font-size: 14px;
+      line-height: 18px;
     }
   }
 
