@@ -21,7 +21,7 @@ const sumbitContact = async function (
 
     // Send data to Brevo
     const response = await createContact(data);
-    console.log("Response:", response);
+    // console.log("Response:", response);
 
     // Handle response if successful
     if (response.status === 200) {

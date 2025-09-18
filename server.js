@@ -1,8 +1,5 @@
-const PORT = 8000;
-// const express = require("express");
-// const cors = require("cors");
-// const axios = require("axios");
-// require("dotenv").config();
+import path from "path";
+import { fileURLToPath } from "url";
 import express from "express";
 import cors from "cors";
 import axios from "axios";
@@ -10,13 +7,13 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
 
 app.get("/", (req, res) => {
   res.json("hi");
@@ -65,4 +62,8 @@ app.use((err, req, res, next) => {
   });
 });
 
+const PORT = process.env.PORT || 8000;
+
 app.listen(8000, () => console.log(`Server is running on ${PORT}`));
+
+export default app;
