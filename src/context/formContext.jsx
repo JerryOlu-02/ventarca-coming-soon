@@ -23,20 +23,12 @@ const FormProvider = function ({ children }) {
 
     //   POST data to Brevo
 
-    const response = await axios.post(
-      "https://api.brevo.com/v3/contacts",
-      {
-        email: email,
-        listIds: [2],
-      },
-      {
-        headers: {
-          "api-key": apiKey,
-          "content-type": "application/json",
-          accept: "application/json",
-        },
-      }
-    );
+    const response = await axios.post("/api/submit", {
+      email_address: email,
+      // listIds: [2],
+    });
+
+    // console.log(response);
 
     return response;
   };

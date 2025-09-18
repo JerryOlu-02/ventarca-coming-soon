@@ -21,10 +21,10 @@ const sumbitContact = async function (
 
     // Send data to Brevo
     const response = await createContact(data);
-    // console.log("Response:", response);
+    console.log("Response:", response);
 
     // Handle response if successful
-    if (response.status === 201) {
+    if (response.status === 200) {
       setSuccessStatus(true);
       setIsModalHiddenStatus(false);
       setLoadingStatus(false);
@@ -32,14 +32,14 @@ const sumbitContact = async function (
     }
   } catch (error) {
     // Handle error
-    setErrorMessage(error?.response?.data?.message);
+    setErrorMessage(error?.response?.data?.error);
     setErrorStatus(true);
 
     setLoadingStatus(false);
     setSuccessStatus(false);
     setIsModalHiddenStatus(false);
 
-    console.log(error);
+    // console.log(error);
 
     console.log(
       "Error creating contact:",
